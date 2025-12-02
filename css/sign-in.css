@@ -1,9 +1,10 @@
-.form-signin w-100 m-auto mt-5{
+.form-signin w-100 m-auto mt-5 {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .form-signin {
   max-width: 330px;
   padding: 1rem;
@@ -26,10 +27,7 @@
 }
 
 main.form-signin {
-  padding-top: 1000px;
-  margin-top: 3000px;  /* pushes it down below the navbar */
+  padding-top: 150px;
+  margin-top: 3000px;
+  /* pushes it down below the navbar */
 }
-
-
-
-
