@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playlist View - MPMS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/home-page.css" rel="stylesheet">
+    <link href="css/playlists.css" rel="stylesheet">
+</head>
+
+<body style="padding-top: 150px;">
+
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="playlists.html">Music Playlist Management System</a>
+            <button class="btn btn-outline-secondary btn-sm" onclick="window.location.href='playlists.html'">← Back to
+                Playlists</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <div class="d-flex align-items-center gap-2">
+                    <h2 id="playlistName" class="mb-0">Loading...</h2>
+                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#editNameModal">Edit</button>
+                </div>
+                <p id="playlistInfo" class="text-muted"></p>
+            </div>
+
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSongModal">+ Add Song</button>
+        </div>
+
+        <hr>
+
+        <h4>Songs</h4>
+        <div id="songsContainer" class="list-group mb-5"></div>
+    </main>
+
+    <div class="modal fade" id="addSongModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Song to Playlist</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex gap-2 mb-3">
+                        <div class="flex-grow-1">
+                            <input id="songSearchInput" type="search" class="form-control" placeholder="Search songs..."
+                                autocomplete="off">
+                        </div>
+
+                        <div class="dropdown">
+                            <button id="searchTypeBtn" class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Title
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item search-type" href="#" data-type="title">Title</a></li>
+                                <li><a class="dropdown-item search-type" href="#" data-type="artist">Artist</a></li>
+                                <li><a class="dropdown-item search-type" href="#" data-type="album">Album</a></li>
+                            </ul>
+                        </div>
+
+                        <button id="clearSearchBtn" class="btn btn-outline-secondary">Clear</button>
+                    </div>
+
+                    <div id="songResults" class="list-group" style="max-height: 50vh; overflow:auto;">
+                        <div class="text-muted p-3">Loading songs...</div>
+                    </div>
+
+                    <p class="mt-2 text-muted small">Click a song to add it to the playlist.</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editNameModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editNameForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Rename Playlist</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating">
+                            <input type="text" id="newPlaylistName" class="form-control" placeholder="New name"
+                                required>
+                            <label for="newPlaylistName">New Playlist Name</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto">
+        <hr>
+        <div class="container text-center">
+            <p>&copy; 2025 Music Playlist Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const API = "http://127.0.0.1:5000/playlists";
+        const SONGS_API = "http://127.0.0.1:5000/songs";
+        const params = new URLSearchParams(window.location.search);
+        const playlistId = params.get("id");
+
+        if (!playlistId) {
+            alert("No playlist selected.");
+            window.location.href = "playlists.html";
+        }
+
+        const songResults = () => document.getElementById("songResults");
+        const songSearchInput = () => document.getElementById("songSearchInput");
+        const searchTypeBtn = () => document.getElementById("searchTypeBtn");
+        let currentSearchType = "title";
+        let searchDebounceTimer = null;
+
+        async function loadPlaylist() {
+            try {
+                const res = await fetch(`${API}/${playlistId}`);
+                if (!res.ok) {
+                    alert("Failed to load playlist.");
+                    return;
+                }
+                const playlist = await res.json();
+                document.getElementById("playlistName").innerText = playlist.p_name;
+                document.getElementById("playlistInfo").innerText = `${playlist.p_number_of_songs} song${playlist.p_number_of_songs !== 1 ? 's' : ''}`;
+
+                const container = document.getElementById("songsContainer");
+                container.innerHTML = "";
+
+                if (!playlist.songs || playlist.songs.length === 0) {
+                    container.innerHTML = '<p class="text-muted p-3">No songs in this playlist yet. Click "Add Song" to get started!</p>';
+                } else {
+                    playlist.songs.forEach(song => {
+                        const item = document.createElement("div");
+                        item.className = "list-group-item d-flex justify-content-between align-items-center";
+                        item.innerHTML = `
+              <div>
+                <strong>${song.s_song_name}</strong><br>
+                <small class="text-muted">Artist: ${song.ar_name} | Album: ${song.al_album_name} | Duration: ${song.s_time}</small>
+              </div>
+              <button class="btn btn-sm btn-danger">Remove</button>
+            `;
+                        const removeBtn = item.querySelector("button");
+                        removeBtn.addEventListener("click", () => removeSong(song.s_song_key, song.s_song_name));
+                        container.appendChild(item);
+                    });
+                }
+            } catch (err) {
+                console.error("Error loading playlist:", err);
+                alert("An error occurred while loading the playlist.");
+            }
+        }
+
+        loadPlaylist();
+
+        async function removeSong(songId, songName) {
+            if (!confirm(`Remove "${songName}" from playlist?`)) return;
+            try {
+                const res = await fetch(`${API}/delete_song`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ p_playlist_key: parseInt(playlistId), s_song_key: parseInt(songId) })
+                });
+                const result = await res.json();
+                if (res.ok) {
+                    alert("Song removed successfully!");
+                    loadPlaylist();
+                } else {
+                    alert(result.error || "Failed to remove song.");
+                }
+            } catch (error) {
+                console.error("Error removing song:", error);
+                alert("An error occurred while removing the song.");
+            }
+        }
+
+        async function addSongToPlaylist(song) {
+            try {
+                const res = await fetch(`${API}/add_song`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ p_playlist_key: parseInt(playlistId), s_song_key: parseInt(song.s_song_key) })
+                });
+                const result = await res.json();
+                if (res.ok) {
+                    alert(`"${song.s_song_name}" added to playlist`);
+                    const modalElement = document.getElementById("addSongModal");
+                    bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+                    loadPlaylist();
+                } else {
+                    alert(result.error || "Failed to add song.");
+                }
+            } catch (err) {
+                console.error("Error adding song:", err);
+                alert("An error occurred while adding the song.");
+            }
+        }
+
+        function renderSongResults(list) {
+            const container = songResults();
+            container.innerHTML = "";
+            if (!list || list.length === 0) {
+                container.innerHTML = '<div class="text-muted p-3">No matches found.</div>';
+                return;
+            }
+
+            list.forEach(song => {
+                const row = document.createElement("button");
+                row.type = "button";
+                row.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-start";
+                row.innerHTML = `
+          <div class="ms-2 me-auto text-start">
+            <div class="fw-bold">${song.s_song_name}</div>
+            <small class="text-muted">${song.ar_name} — ${song.al_album_name}</small>
+          </div>
+          <small class="text-muted">${song.s_time || ""}</small>
+        `;
+                row.addEventListener("click", () => addSongToPlaylist(song));
+                container.appendChild(row);
+            });
+        }
+
+        async function fetchSongs(query = "") {
+            try {
+                const u = new URL(`${SONGS_API}/search`, window.location.origin);
+                u.searchParams.set("by", currentSearchType);
+                u.searchParams.set("query", query);
+
+                const res = await fetch(u.toString());
+                if (!res.ok) {
+                    console.error("Search fetch failed:", res.status);
+                    songResults().innerHTML = '<div class="text-muted p-3">Failed to load songs.</div>';
+                    return;
+                }
+                const list = await res.json();
+                renderSongResults(list);
+            } catch (err) {
+                console.error("Error fetching songs:", err);
+                songResults().innerHTML = '<div class="text-muted p-3">Error loading songs.</div>';
+            }
+        }
+
+        const addSongModalEl = document.getElementById("addSongModal");
+        addSongModalEl.addEventListener("show.bs.modal", () => {
+            songSearchInput().value = "";
+            fetchSongs("");
+            setTimeout(() => songSearchInput().focus(), 100);
+        });
+
+        songSearchInput().addEventListener("input", (e) => {
+            const q = e.target.value.trim();
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => fetchSongs(q), 250);
+        });
+
+        document.querySelectorAll(".search-type").forEach(el => {
+            el.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                const type = el.dataset.type;
+                currentSearchType = type;
+                searchTypeBtn().innerText = type.charAt(0).toUpperCase() + type.slice(1);
+                fetchSongs(songSearchInput().value.trim());
+            });
+        });
+
+        document.getElementById("clearSearchBtn").addEventListener("click", () => {
+            songSearchInput().value = "";
+            fetchSongs("");
+            songSearchInput().focus();
+        });
+
+        document.getElementById("editNameForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const newName = document.getElementById("newPlaylistName").value.trim();
+            if (!newName) return alert("Playlist name cannot be empty.");
+            try {
+                const res = await fetch(`${API}/update_playlist/${playlistId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ p_name: newName })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById("editNameModal")).hide();
+                    loadPlaylist();
+                } else {
+                    alert(data.error || "Failed to rename playlist.");
+                }
+            } catch (err) {
+                console.error("Error renaming playlist:", err);
+                alert("An error occurred while renaming the playlist.");
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

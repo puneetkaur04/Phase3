@@ -1,97 +1,210 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="css/homepage.css" rel="stylesheet" />
-    <link href="css/home-page.css" rel="stylesheet" />
-    <link href="css/browse.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  </head>
-  <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> 
-  </body>
 
-  <body>
-    <nav class="navbar bg-body-tertiary fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand">Music Playlist Management System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Music Playlist Management System</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="home-page.html">Homepage</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="browse.html">Browse</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="playlists.html">My Playlists</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile.html">Profile</a>
-              </li>
-            </ul>
-            <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/home-page.css" rel="stylesheet" />
+  <link href="css/homepage.css" rel="stylesheet" />
+  <link href="css/playlists.css" rel="stylesheet" />
+
+  <title>My Playlists - MPMS</title>
+</head>
+
+<body style="padding-top: 150px;">
+  <nav class="navbar bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand">Music Playlist Management System</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Music Playlist Management System</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item"><a class="nav-link" href="home-page.html">Homepage</a></li>
+            <li class="nav-item"><a class="nav-link" href="browse.html">Browse</a></li>
+            <li class="nav-item"><a class="nav-link active" href="playlists.html">My Playlists</a></li>
+            <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+          </ul>
+
+          <form class="d-flex mt-3" role="search">
+            <input id="searchInput" class="form-control me-2" type="search" placeholder="Search playlists...">
+            <button class="btn btn-outline-success" type="button" onclick="searchPlaylists()">Search</button>
+          </form>
         </div>
       </div>
-    </nav>
-    <main style="padding-top: 150px;">
-        <h2>My Playlists</h2>
-        <form id="search-engine" class="d-flex mt-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Browse by playlist name." aria-label="Search"/>
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </main>
-         
-
-<footer class="mt-auto">
-        <hr class="mb-4">
-  <div class="container" style="padding-top: 50px;">
-    <div class="row" style="padding-bottom: 50px;">
-      <div class="col-md-4 mb-3">
-        <h5>About Us</h5>
-        <p>The Music Playlist Management System (MPMS) allows users to search a library of songs by artist, album, song name, and more for listening and enjoyment. Users can add or remove songs from playlists as they please. The application aims to enhance user experience by providing a user-friendly interface that is easy to follow and accommodates users with minimal technical skills or experience.</p>
-      </div>
-      <div class="col-md-4 mb-3">
-        </ul>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="">
-            <form>
-              <h5>Subscribe to our newsletter</h5>
-              <p>Monthly digest of what's new and exciting from us.</p>
-              <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                <label for="newsletter1" class="visually-hidden" >Email address</label>
-                <input
-                  id="newsletter1"
-                  type="email"
-                  class="form-control"
-                  placeholder="Email address"
-                />
-                <button class="btn btn-primary" type="button">Subscribe</button>
-              </div>
-            </form>
-          </div>
-      </div>
     </div>
+  </nav>
+
+  <main class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>My Playlists</h2>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">+ Create
+        Playlist</button>
+    </div>
+
     <hr class="mb-4">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <p>&copy; 2025 Music Playlist Management System. All rights reserved.</p>
+
+    <div id="playlistsContainer" class="row g-4">
+    </div>
+
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2025 MPMS</p>
+  </main>
+
+  <footer class="mt-auto">
+    <hr class="mb-4">
+    <div class="container text-center">
+      <p>&copy; 2025 Music Playlist Management System. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="createPlaylistModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="createPlaylistForm">
+          <div class="modal-header">
+            <h5 class="modal-title">Create Playlist</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="playlistName" placeholder="Playlist Name" required>
+              <label for="playlistName">Playlist Name</label>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary w-100 py-2">Create Playlist</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-</footer>
+
+  <script>
+    const API = "http://127.0.0.1:5000/playlists";
+    const accountId = localStorage.getItem("account_id");
+
+    if (!accountId) {
+      alert("You are not logged in.");
+      window.location.href = "sign-in.html";
+    }
+
+    async function loadPlaylists() {
+      const res = await fetch(`${API}/account/${accountId}`);
+      const playlists = await res.json();
+
+      const container = document.getElementById("playlistsContainer");
+      container.innerHTML = "";
+
+      playlists.forEach(pl => {
+        const card = `
+          <div class="col-md-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">${pl.p_name}</h5>
+                <p class="card-text text-muted">${pl.p_number_of_songs} song${pl.p_number_of_songs !== 1 ? 's' : ''}</p>
+
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-primary" onclick="openPlaylist(${pl.p_playlist_key})">
+                    Open
+                  </button>
+
+                  <button class="btn btn-danger" onclick="deletePlaylist(${pl.p_playlist_key})">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    }
+
+    function openPlaylist(id) {
+      window.location.href = `playlist-view.html?id=${id}`;
+    }
+
+    async function deletePlaylist(id) {
+      if (!confirm("Are you sure you want to delete this playlist?")) return;
+
+      const res = await fetch(`${API}/delete_playlist/${id}`, { method: "DELETE" });
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Playlist deleted.");
+        loadPlaylists();
+      } else {
+        alert(result.error || "Failed to delete playlist.");
+      }
+    }
+
+    document.getElementById("createPlaylistForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("playlistName").value;
+
+      const res = await fetch(`${API}/add_playlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          p_name: name,
+          p_account_key: parseInt(accountId)
+        })
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Playlist created!");
+        document.getElementById("createPlaylistForm").reset();
+
+        const modalElement = document.getElementById("createPlaylistModal");
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        } else {
+          bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+        }
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+
+        loadPlaylists();
+      } else {
+        alert(result.error || "Failed to create playlist.");
+      }
+    });
+
+    function searchPlaylists() {
+      const text = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll("#playlistsContainer .card");
+
+      cards.forEach(card => {
+        const name = card.querySelector(".card-title").innerText.toLowerCase();
+        card.parentElement.style.display = name.includes(text) ? "" : "none";
+      });
+    }
+
+    loadPlaylists();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

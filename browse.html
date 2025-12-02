@@ -1,97 +1,469 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="css/homepage.css" rel="stylesheet" />
-    <link href="css/home-page.css" rel="stylesheet" />
-    <link href="css/browse.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  </head>
-  <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> 
-  </body>
 
-  <body>
-    <nav class="navbar bg-body-tertiary fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand">Music Playlist Management System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Music Playlist Management System</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="home-page.html">Homepage</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="browse.html">Browse</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="playlists.html">My Playlists</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile.html">Profile</a>
-              </li>
-            </ul>
-            <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/home-page.css" rel="stylesheet" />
+  <link href="css/homepage.css" rel="stylesheet" />
+  <link href="css/playlists.css" rel="stylesheet" />
+  <title>Browse Music - MPMS</title>
+</head>
+
+<body style="padding-top: 150px;">
+
+  <nav class="navbar bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand">Music Playlist Management System</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Music Playlist Management System</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item"><a class="nav-link" href="home-page.html">Homepage</a></li>
+            <li class="nav-item"><a class="nav-link active" href="browse.html">Browse</a></li>
+            <li class="nav-item"><a class="nav-link" href="playlists.html">My Playlists</a></li>
+            <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+          </ul>
+
+          <form class="d-flex mt-3" role="search">
+            <input id="searchInput" class="form-control me-2" type="search"
+              placeholder="Search songs, artists, albums...">
+            <button class="btn btn-outline-success" type="button" onclick="searchSongs()">Search</button>
+          </form>
         </div>
       </div>
-    </nav>
-    <main style="padding-top: 150px;">
-        <h2>Explore Songs & Albums</h2>
-        <form id="search-engine" class="d-flex mt-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Browse by song name, albums, artists, and genre." aria-label="Search"/>
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </main>
-         
+    </div>
+  </nav>
 
-<footer class="mt-auto">
-        <hr class="mb-4">
-  <div class="container" style="padding-top: 50px;">
-    <div class="row" style="padding-bottom: 50px;">
-      <div class="col-md-4 mb-3">
-        <h5>About Us</h5>
-        <p>The Music Playlist Management System (MPMS) allows users to search a library of songs by artist, album, song name, and more for listening and enjoyment. Users can add or remove songs from playlists as they please. The application aims to enhance user experience by providing a user-friendly interface that is easy to follow and accommodates users with minimal technical skills or experience.</p>
-      </div>
-      <div class="col-md-4 mb-3">
+  <main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Browse Music</h2>
+    </div>
+
+    <hr class="mb-4">
+
+    <div class="d-flex gap-2 mb-3">
+      <input id="songSearchInput" type="search" class="form-control" placeholder="Search by song, artist, album"
+        autocomplete="off">
+      <div class="dropdown">
+        <button id="searchTypeBtn" class="btn btn-outline-secondary dropdown-toggle" type="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Title
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item search-type" href="#" data-type="title">Title</a></li>
+          <li><a class="dropdown-item search-type" href="#" data-type="artist">Artist</a></li>
+          <li><a class="dropdown-item search-type" href="#" data-type="album">Album</a></li>
         </ul>
       </div>
-      <div class="col-md-4 mb-3">
-        <div class="">
-            <form>
-              <h5>Subscribe to our newsletter</h5>
-              <p>Monthly digest of what's new and exciting from us.</p>
-              <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                <label for="newsletter1" class="visually-hidden" >Email address</label>
-                <input
-                  id="newsletter1"
-                  type="email"
-                  class="form-control"
-                  placeholder="Email address"
-                />
-                <button class="btn btn-primary" type="button">Subscribe</button>
-              </div>
-            </form>
-          </div>
-      </div>
+      <button id="clearSearchBtn" class="btn btn-outline-secondary">Clear</button>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSongModal">Add</button>
     </div>
+
+    <div id="songResults" class="list-group mb-5">
+      <div class="text-muted p-3">Loading songs...</div>
+    </div>
+
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2025 MPMS</p>
+  </main>
+
+  <footer class="mt-auto">
     <hr class="mb-4">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <p>&copy; 2025 Music Playlist Management System. All rights reserved.</p>
+    <div class="container text-center">
+      <p>&copy; 2025 Music Playlist Management System. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="addSongModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="addSongForm">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Song</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <h6 class="mb-3">Song Information</h6>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="songName" placeholder="Song Name" required>
+              <label for="songName">Song Name</label>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Duration</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="songHours" placeholder="HH" min="0" max="23" value="0">
+                  <span class="input-group-text">:</span>
+                  <input type="number" class="form-control" id="songMinutes" placeholder="MM" min="0" max="59"
+                    value="0">
+                  <span class="input-group-text">:</span>
+                  <input type="number" class="form-control" id="songSeconds" placeholder="SS" min="0" max="59"
+                    value="0">
+                </div>
+                <small class="text-muted">Hours : Minutes : Seconds</small>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="songGenre" placeholder="Genre" required>
+                  <label for="songGenre">Genre</label>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <h6 class="mb-3">Album Information</h6>
+
+            <div class="form-floating mb-3">
+              <select class="form-select" id="albumSelect" required>
+                <option value="">Select an existing album or create new...</option>
+              </select>
+              <label for="albumSelect">Album</label>
+            </div>
+
+            <div id="newAlbumFields" style="display: none;">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="albumName" placeholder="Album Name">
+                <label for="albumName">Album Name</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="albumDate" placeholder="Release Date">
+                <label for="albumDate">Release Date</label>
+              </div>
+
+              <hr>
+
+              <h6 class="mb-3">Artist Information</h6>
+
+              <div class="form-floating mb-3">
+                <select class="form-select" id="artistSelect">
+                  <option value="">Select an existing artist or create new...</option>
+                </select>
+                <label for="artistSelect">Artist</label>
+              </div>
+
+              <div id="newArtistFields" style="display: none;">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="artistName" placeholder="Artist Name">
+                  <label for="artistName">Artist Name</label>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="artistGenre" placeholder="Artist Genre">
+                      <label for="artistGenre">Artist Genre</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="date" class="form-control" id="artistDob" placeholder="Date of Birth">
+                      <label for="artistDob">Date of Birth</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <textarea class="form-control" id="artistBio" placeholder="Biography"
+                    style="height: 100px"></textarea>
+                  <label for="artistBio">Biography</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Song</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-</footer>
+
+  <script>
+    const SONGS_API = "http://127.0.0.1:5000/songs";
+    const ALBUMS_API = "http://127.0.0.1:5000/albums";
+    const ARTISTS_API = "http://127.0.0.1:5000/artists";
+
+    const songResults = () => document.getElementById("songResults");
+    const songSearchInput = () => document.getElementById("songSearchInput");
+    const searchTypeBtn = () => document.getElementById("searchTypeBtn");
+
+    let currentSearchType = "title";
+    let searchDebounceTimer = null;
+
+    function formatTime() {
+      const hours = parseInt(document.getElementById("songHours").value) || 0;
+      const minutes = parseInt(document.getElementById("songMinutes").value) || 0;
+      const seconds = parseInt(document.getElementById("songSeconds").value) || 0;
+
+      const hh = String(hours).padStart(2, '0');
+      const mm = String(minutes).padStart(2, '0');
+      const ss = String(seconds).padStart(2, '0');
+
+      return `${hh}:${mm}:${ss}`;
+    }
+
+    function renderSongResults(list) {
+      const container = songResults();
+      container.innerHTML = "";
+
+      if (!list || list.length === 0) {
+        container.innerHTML = '<div class="text-muted p-3">No songs found.</div>';
+        return;
+      }
+
+      list.forEach(song => {
+        const row = document.createElement("div");
+        row.className = "list-group-item d-flex justify-content-between align-items-start";
+        row.innerHTML = `
+          <div class="ms-2 me-auto text-start">
+            <div class="fw-bold">${song.s_song_name}</div>
+            <small class="text-muted">
+              Artist: ${song.ar_name} — Album: ${song.al_album_name}
+            </small>
+          </div>
+          <small class="text-muted">${song.s_time || ""}</small>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    async function fetchSongs(query = "") {
+      try {
+        const u = new URL(`${SONGS_API}/search`, window.location.origin);
+        u.searchParams.set("by", currentSearchType);
+        u.searchParams.set("query", query);
+
+        const res = await fetch(u.toString());
+        if (!res.ok) {
+          console.error("Search fetch failed:", res.status);
+          songResults().innerHTML = '<div class="text-muted p-3">Failed to load songs.</div>';
+          return;
+        }
+
+        const list = await res.json();
+        renderSongResults(list);
+      } catch (err) {
+        console.error("Error fetching songs:", err);
+        songResults().innerHTML = '<div class="text-muted p-3">Error loading songs.</div>';
+      }
+    }
+
+    async function loadAlbums() {
+      try {
+        const res = await fetch(`${ALBUMS_API}/all`);
+        if (res.ok) {
+          const albums = await res.json();
+          const select = document.getElementById("albumSelect");
+          albums.forEach(album => {
+            const option = document.createElement("option");
+            option.value = album.al_album_key;
+            option.textContent = `${album.al_album_name} (${album.ar_name || 'Unknown Artist'})`;
+            select.appendChild(option);
+          });
+          const newOption = document.createElement("option");
+          newOption.value = "new";
+          newOption.textContent = "➕ Create New Album";
+          select.appendChild(newOption);
+        }
+      } catch (err) {
+        console.error("Error loading albums:", err);
+      }
+    }
+
+    async function loadArtists() {
+      try {
+        const res = await fetch(`${ARTISTS_API}/all`);
+        if (res.ok) {
+          const artists = await res.json();
+          const select = document.getElementById("artistSelect");
+          artists.forEach(artist => {
+            const option = document.createElement("option");
+            option.value = artist.ar_artist_key;
+            option.textContent = artist.ar_name;
+            select.appendChild(option);
+          });
+          const newOption = document.createElement("option");
+          newOption.value = "new";
+          newOption.textContent = "➕ Create New Artist";
+          select.appendChild(newOption);
+        }
+      } catch (err) {
+        console.error("Error loading artists:", err);
+      }
+    }
+
+    document.getElementById("albumSelect").addEventListener("change", (e) => {
+      const newAlbumFields = document.getElementById("newAlbumFields");
+      if (e.target.value === "new") {
+        newAlbumFields.style.display = "block";
+        document.getElementById("albumName").required = true;
+        document.getElementById("albumDate").required = true;
+        loadArtists();
+      } else {
+        newAlbumFields.style.display = "none";
+        document.getElementById("albumName").required = false;
+        document.getElementById("albumDate").required = false;
+        document.getElementById("newArtistFields").style.display = "none";
+      }
+    });
+
+    document.getElementById("artistSelect").addEventListener("change", (e) => {
+      const newArtistFields = document.getElementById("newArtistFields");
+      if (e.target.value === "new") {
+        newArtistFields.style.display = "block";
+        document.getElementById("artistName").required = true;
+        document.getElementById("artistGenre").required = true;
+        document.getElementById("artistDob").required = true;
+        document.getElementById("artistBio").required = true;
+      } else {
+        newArtistFields.style.display = "none";
+        document.getElementById("artistName").required = false;
+        document.getElementById("artistGenre").required = false;
+        document.getElementById("artistDob").required = false;
+        document.getElementById("artistBio").required = false;
+      }
+    });
+
+    document.getElementById("addSongForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      try {
+        let albumKey = document.getElementById("albumSelect").value;
+
+        if (albumKey === "new") {
+          let artistKey = document.getElementById("artistSelect").value;
+
+          if (artistKey === "new") {
+            const artistRes = await fetch(`${ARTISTS_API}/add_artist`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                ar_name: document.getElementById("artistName").value,
+                ar_genre: document.getElementById("artistGenre").value,
+                ar_date_of_birth: document.getElementById("artistDob").value,
+                ar_biography: document.getElementById("artistBio").value
+              })
+            });
+
+            if (!artistRes.ok) {
+              const error = await artistRes.json();
+              alert(error.error || "Failed to create artist.");
+              return;
+            }
+
+            const artistResult = await artistRes.json();
+            artistKey = artistResult.ar_artist_key;
+          }
+
+          const albumRes = await fetch(`${ALBUMS_API}/add_album`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              al_album_name: document.getElementById("albumName").value,
+              al_date: document.getElementById("albumDate").value,
+              al_artist_key: parseInt(artistKey)
+            })
+          });
+
+          if (!albumRes.ok) {
+            const error = await albumRes.json();
+            alert(error.error || "Failed to create album.");
+            return;
+          }
+
+          const albumResult = await albumRes.json();
+          albumKey = albumResult.al_album_key;
+        }
+
+        const songRes = await fetch(`${SONGS_API}/add_song`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            s_song_name: document.getElementById("songName").value,
+            s_time: formatTime(),
+            s_genre: document.getElementById("songGenre").value,
+            s_album_key: parseInt(albumKey)
+          })
+        });
+
+        if (!songRes.ok) {
+          const error = await songRes.json();
+          alert(error.error || "Failed to create song.");
+          return;
+        }
+
+        alert("Song added successfully!");
+        document.getElementById("addSongForm").reset();
+        document.getElementById("newAlbumFields").style.display = "none";
+        document.getElementById("newArtistFields").style.display = "none";
+
+        const modalElement = document.getElementById("addSongModal");
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+          modal.hide();
+        } else {
+          bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+        }
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) backdrop.remove();
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+
+        fetchSongs(songSearchInput().value.trim());
+      } catch (err) {
+        console.error("Error adding song:", err);
+        alert("An error occurred while adding the song.");
+      }
+    });
+
+    fetchSongs("");
+    loadAlbums();
+
+    songSearchInput().addEventListener("input", (e) => {
+      const q = e.target.value.trim();
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => fetchSongs(q), 250);
+    });
+
+    document.querySelectorAll(".search-type").forEach(el => {
+      el.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        currentSearchType = el.dataset.type;
+        searchTypeBtn().innerText = currentSearchType.charAt(0).toUpperCase() + currentSearchType.slice(1);
+        fetchSongs(songSearchInput().value.trim());
+      });
+    });
+
+    document.getElementById("clearSearchBtn").addEventListener("click", () => {
+      songSearchInput().value = "";
+      fetchSongs("");
+      songSearchInput().focus();
+    });
+
+    function searchSongs() {
+      fetchSongs(document.getElementById("searchInput").value.trim());
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
